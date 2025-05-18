@@ -1,20 +1,39 @@
 {
-    "Clients" : {
-        "Client 0" : {
-            "Nom" : "AUGER",
-            "Prénom" : "Kévin",
-            "Mail" : "kevin.auger@uha.fr",
-            "ID" : null,
-            "Réservations" : [ [ "Salle 0" , "date" , [ "heure+" , "heure-" ] ] ]
+    "Clients": [
+        {
+            "Client 0": {
+                "Nom": "AUGER",
+                "Prenom": "Kevin",
+                "Mail": "kevin.auger@uha.fr",
+                "ID": null,
+                "Reservations": [
+                    [
+                        "Salle 0",
+                        "date",
+                        [
+                            "heure+",
+                            "heure-"
+                        ]
+                    ]
+                ]
+            }
         }
-    },
-
-    "Salles" : {
-        "Salle 0" : {
-            "Identification" : "Salle 0",
-            "Type" : "Informatique",
-            "Capacité" : 0,
-            "Date d'indisponibilité" : [ [ "date" , [ "heure+" , "heure-" ] ] ]
+    ],
+    "Salles": [
+        {
+            "Salle 0": {
+                "Type": "Informatique",
+                "Capacite": 0,
+                "Date d'indisponibilite": [
+                    [
+                        "date",
+                        [
+                            "heure+",
+                            "heure-"
+                        ]
+                    ]
+                ]
+            }
         }
-    }
+    ]
 }
