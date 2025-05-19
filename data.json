@@ -17,6 +17,15 @@
                     ]
                 ]
             }
+        },
+        {
+            "AUGER Kevin": {
+                "Nom": "AUGER",
+                "Prenom": "Kevin",
+                "Mail": "kevin.auger@uha.fr",
+                "ID": 0,
+                "Reservations": []
+            }
         }
     ],
     "Salles": [
