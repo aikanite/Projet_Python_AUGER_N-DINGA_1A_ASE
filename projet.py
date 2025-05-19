@@ -41,6 +41,7 @@ def open_add_page():
 # Fonction pour ajouter un nouveau client
 
 
+# Dans json
 def add_client(nom: str, prenom: str, mail: str, id=0, reservations=[]):
     """ajouter un nouveau client"""
 
@@ -61,6 +62,7 @@ def add_client(nom: str, prenom: str, mail: str, id=0, reservations=[]):
     write_json(data)
 
 
+# Visuellement
 def add_new_client():
     clear_frame()
     set_active_button("Ajouter")
@@ -109,6 +111,29 @@ def validate_client(nom, prenom, email):
 
 
 # Fonction pour ajouter une nouvelle salle
+
+
+# Dans json
+def add_salle(roomid: str, type: str, C: int, reservations=[]):
+    """ajouter une nouvelle salle"""
+
+    with open("data.json") as json_file:
+        data = json.load(json_file)
+        temp = data["Salles"]
+        y = {
+            f"Salle {roomid}": {
+                "Room Id": roomid,
+                "Type": type,
+                "Capacite": C,
+                "Date d'indisponibilite": reservations,  # ["date", ["heure+", "heure-"]]
+            }
+        }  # temp +1 si pas de salle 0
+        temp.append(y)
+
+    write_json(data)
+
+
+# Visuellement
 def add_new_room():
     clear_frame()
     set_active_button("Ajouter")
@@ -135,7 +160,7 @@ def add_new_room():
     ttk.Label(frm, text="Type de salle:").grid(column=0, row=3, pady=5, sticky=E)
     room_type = StringVar()
     room_type_combobox = ttk.Combobox(
-        frm, textvariable=room_type, values=["Standard", "Conférence", "Informatique"]
+        frm, textvariable=room_type, values=["Standard", "Conference", "Informatique"]
     )
     room_type_combobox.grid(column=1, row=3, pady=5, sticky=W)
     room_type_combobox.current(0)
@@ -177,6 +202,7 @@ def validate_room(room_id, capacity, room_type):
     elif not room_type:
         messagebox.showerror("Erreur", "Type de salle invalide")
     else:
+        add_salle(room_id, room_type, capacity)
         messagebox.showinfo("Succès", "Salle ajoutée avec succès")
         show_home()
 

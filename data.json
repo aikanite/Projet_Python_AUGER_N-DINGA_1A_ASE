@@ -1,24 +1,6 @@
 {
     "Clients": [
         {
-            "Client 0": {
-                "Nom": "0",
-                "Prenom": "00",
-                "Mail": "0.00@uha.fr",
-                "ID": "0",
-                "Reservations": [
-                    [
-                        "Salle 0",
-                        "date",
-                        [
-                            "heure+",
-                            "heure-"
-                        ]
-                    ]
-                ]
-            }
-        },
-        {
             "AUGER Kevin": {
                 "Nom": "AUGER",
                 "Prenom": "Kevin",
@@ -33,15 +15,7 @@
             "Salle 0": {
                 "Type": "Informatique",
                 "Capacite": 0,
-                "Date d'indisponibilite": [
-                    [
-                        "date",
-                        [
-                            "heure+",
-                            "heure-"
-                        ]
-                    ]
-                ]
+                "Date d'indisponibilite": []
             }
         }
     ]
