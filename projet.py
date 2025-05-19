@@ -1,6 +1,13 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+import json
+
+
+# Ecrire dans jason
+def write_json(data, filename="data.json"):
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=4)
 
 
 # Fonction pour afficher la page d'accueil
@@ -32,6 +39,28 @@ def open_add_page():
 
 
 # Fonction pour ajouter un nouveau client
+
+
+def add_client(nom: str, prenom: str, mail: str, id=0, reservations=[]):
+    """ajouter un nouveau client"""
+
+    with open("data.json") as json_file:
+        data = json.load(json_file)
+        temp = data["Clients"]
+        y = {
+            f"{nom} {prenom}": {
+                "Nom": nom,
+                "Prenom": prenom,
+                "Mail": mail,
+                "ID": id,
+                "Reservations": reservations,
+            }
+        }  # temp +1 si pas de client 0
+        temp.append(y)
+
+    write_json(data)
+
+
 def add_new_client():
     clear_frame()
     set_active_button("Ajouter")
@@ -74,6 +103,7 @@ def validate_client(nom, prenom, email):
     elif "@" not in email:
         messagebox.showerror("Erreur", "Adresse email invalide")
     else:
+        add_client(str(nom), str(prenom), str(email))
         messagebox.showinfo("Succès", "Client ajouté avec succès")
         show_home()
 
