@@ -13,7 +13,7 @@ def add_client(nom: str, prenom: str, mail: str, id: str, reservations=[]):
         data = json.load(json_file)
         temp = data["Clients"]
         y = {
-            f"Client {len(temp)}": {
+            f"{nom} {prenom}": {
                 "Nom": nom,
                 "Prenom": prenom,
                 "Mail": mail,
@@ -42,3 +42,6 @@ def add_salle(type: str, C: int, reservations=[]):
         temp.append(y)
 
     write_json(data)
+
+
+add_client("AUGER", "Kevin", "kevin.auger@uha.fr", "1")
