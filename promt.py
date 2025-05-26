@@ -25,4 +25,23 @@ def add_salle(roomid: str, type: str, C: int, reservations=[]):
     write_json(data)
 
 
-add_salle("911", "informatique", 4)
+with open("data.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+salles = data["Salles"]
+liste_cles_salles = [list(salle.keys())[0] for salle in salles]
+print(liste_cles_salles)
+
+
+# Dictionnaire pour stocker les salles triées par catégorie
+categories = {"Informatique": [], "Conférence": [], "Standard": []}
+
+for salle in salles:
+    for nom_salle, infos in salle.items():
+        cat = infos.get("Type")
+        if cat in categories:
+            categories[cat].append(nom_salle)
+        else:
+            categories["Standard"].append(nom_salle)  # Par défaut si catégorie inconnue
+
+print(categories)
