@@ -6,34 +6,15 @@ def write_json(data, filename="data.json"):
         json.dump(data, f, indent=4)
 
 
-def add_client(nom: str, prenom: str, mail: str, id: str, reservations=[]):
-    """ajouter un nouveau client"""
-
-    with open("data.json") as json_file:
-        data = json.load(json_file)
-        temp = data["Clients"]
-        y = {
-            f"{nom} {prenom}": {
-                "Nom": nom,
-                "Prenom": prenom,
-                "Mail": mail,
-                "ID": id,
-                "Reservations": reservations,
-            }
-        }  # temp +1 si pas de client 0
-        temp.append(y)
-
-    write_json(data)
-
-
-def add_salle(type: str, C: int, reservations=[]):
+def add_salle(roomid: str, type: str, C: int, reservations=[]):
     """ajouter une nouvelle salle"""
 
     with open("data.json") as json_file:
         data = json.load(json_file)
         temp = data["Salles"]
         y = {
-            f"Salle {len(temp)}": {
+            f"Salle {roomid}": {
+                "Room Id": roomid,
                 "Type": type,
                 "Capacite": C,
                 "Date d'indisponibilite": reservations,  # ["date", ["heure+", "heure-"]]
@@ -44,4 +25,23 @@ def add_salle(type: str, C: int, reservations=[]):
     write_json(data)
 
 
-add_client("AUGER", "Kevin", "kevin.auger@uha.fr", "1")
+with open("data.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+salles = data["Salles"]
+liste_cles_salles = [list(salle.keys())[0] for salle in salles]
+print(liste_cles_salles)
+
+
+# Dictionnaire pour stocker les salles triées par catégorie
+categories = {"Informatique": [], "Conférence": [], "Standard": []}
+
+for salle in salles:
+    for nom_salle, infos in salle.items():
+        cat = infos.get("Type")
+        if cat in categories:
+            categories[cat].append(nom_salle)
+        else:
+            categories["Standard"].append(nom_salle)  # Par défaut si catégorie inconnue
+
+print(categories)
