@@ -211,8 +211,223 @@ def validate_room(room_id, capacity, room_type):
 def open_reserve_page():
     clear_frame()
     set_active_button("Réserver")
-    ttk.Label(frm, text="Contenu de la page Réserver").grid(column=0, row=0, pady=10)
-    ttk.Button(frm, text="Retour", command=show_home).grid(column=0, row=1, pady=10)
+
+    # Titre
+    ttk.Label(frm, text="Réserver une salle", font=("Arial", 14)).grid(
+        column=0, row=0, pady=10, columnspan=4
+    )
+
+    # Section Date et Heure de début
+    ttk.Label(frm, text="Date de début:").grid(column=0, row=1, pady=5, sticky=E)
+    start_date_entry = ttk.Entry(frm, width=10)
+    start_date_entry.grid(column=1, row=1, pady=5, sticky=W)
+    ttk.Label(frm, text="JJ/MM/AAAA").grid(column=2, row=1, sticky=W)
+
+    ttk.Label(frm, text="Heure de début:").grid(column=0, row=2, pady=5, sticky=E)
+    start_time_entry = ttk.Entry(frm, width=5)
+    start_time_entry.grid(column=1, row=2, pady=5, sticky=W)
+    ttk.Label(frm, text="HH:MM").grid(column=2, row=2, sticky=W)
+
+    # Section Date et Heure de fin
+    ttk.Label(frm, text="Date de fin:").grid(column=0, row=3, pady=5, sticky=E)
+    end_date_entry = ttk.Entry(frm, width=10)
+    end_date_entry.grid(column=1, row=3, pady=5, sticky=W)
+    ttk.Label(frm, text="JJ/MM/AAAA").grid(column=2, row=3, sticky=W)
+
+    ttk.Label(frm, text="Heure de fin:").grid(column=0, row=4, pady=5, sticky=E)
+    end_time_entry = ttk.Entry(frm, width=5)
+    end_time_entry.grid(column=1, row=4, pady=5, sticky=W)
+    ttk.Label(frm, text="HH:MM").grid(column=2, row=4, sticky=W)
+
+    # Section Client
+    ttk.Label(frm, text="Client:").grid(column=0, row=5, pady=5, sticky=E)
+
+    client_var = StringVar()
+    client_combobox = ttk.Combobox(
+        frm, textvariable=client_var, values=["Client 1", "Client 2", "Client 3"]
+    )
+    client_combobox.grid(column=1, row=5, pady=5, sticky=W, columnspan=2)
+    client_combobox.set("Sélectionner un client")
+
+    # Boutons
+    ttk.Button(frm, text="Annuler", command=show_home).grid(
+        column=0, row=6, pady=20, sticky=E, columnspan=2
+    )
+    ttk.Button(
+        frm,
+        text="Valider",
+        command=lambda: validate_reservation(
+            start_date_entry.get(),
+            start_time_entry.get(),
+            end_date_entry.get(),
+            end_time_entry.get(),
+            client_var.get(),
+        ),
+    ).grid(column=2, row=6, pady=20, sticky=W, columnspan=2)
+
+
+def validate_reservation(start_date, start_time, end_date, end_time, client):
+    def is_valid_date(date_str):
+        try:
+            day, month, year = map(int, date_str.split("/"))
+            if len(date_str) != 10 or date_str[2] != "/" or date_str[5] != "/":
+                return False
+            return 1 <= day <= 31 and 1 <= month <= 12 and year == 2025
+        except:
+            return False
+
+    def is_valid_time(time_str):
+        try:
+            hours, minutes = map(int, time_str.split(":"))
+            return 0 <= hours <= 23 and 0 <= minutes <= 59 and len(time_str) == 5
+        except:
+            return False
+
+    # Validation des champs
+    errors = []
+    if not start_date:
+        errors.append("Date de début manquante")
+    elif not is_valid_date(start_date):
+        errors.append("Date début invalide (JJ/MM/2025 obligatoire)")
+
+    if not start_time:
+        errors.append("Heure de début manquante")
+    elif not is_valid_time(start_time):
+        errors.append("Heure début invalide (HH:MM)")
+
+    if not end_date:
+        errors.append("Date de fin manquante")
+    elif not is_valid_date(end_date):
+        errors.append("Date fin invalide (JJ/MM/2025 obligatoire)")
+
+    if not end_time:
+        errors.append("Heure de fin manquante")
+    elif not is_valid_time(end_time):
+        errors.append("Heure fin invalide (HH:MM)")
+
+    if client == "Sélectionner un client":
+        errors.append("Client non sélectionné")
+
+    if errors:
+        messagebox.showerror("Erreurs", "\n".join(errors))
+    else:
+        show_room_selection(start_date, start_time, end_date, end_time, client)
+
+
+def show_room_selection(start_date, start_time, end_date, end_time, client):
+    clear_frame()
+
+    # Calcul de la durée
+    def calculate_duration(start, end):
+        start_h, start_m = map(int, start.split(":"))
+        end_h, end_m = map(int, end.split(":"))
+        total_min = (end_h * 60 + end_m) - (start_h * 60 + start_m)
+        return f"{total_min // 60}h{total_min % 60:02d}"
+
+    duration = calculate_duration(start_time, end_time)
+
+    # Titre
+    ttk.Label(frm, text="Réserver une salle : ", font=("Arial", 14)).grid(
+        column=0, row=0, pady=10, columnspan=4
+    )
+
+    # Affichage des informations
+    ttk.Label(frm, text="Client:", font=("Arial", 10, "bold")).grid(
+        column=0, row=1, sticky=E
+    )
+    ttk.Label(frm, text=client).grid(column=1, row=1, sticky=W, columnspan=3)
+
+    ttk.Label(frm, text="Début:", font=("Arial", 10, "bold")).grid(
+        column=0, row=2, sticky=E
+    )
+    ttk.Label(frm, text=f"{start_date} {start_time}").grid(column=1, row=2, sticky=W)
+
+    ttk.Label(frm, text="Fin:", font=("Arial", 10, "bold")).grid(
+        column=2, row=2, sticky=E
+    )
+    ttk.Label(frm, text=f"{end_date} {end_time}").grid(column=3, row=2, sticky=W)
+
+    ttk.Label(frm, text="Durée:", font=("Arial", 10, "bold")).grid(
+        column=0, row=3, sticky=E
+    )
+    ttk.Label(frm, text=duration).grid(column=1, row=3, sticky=W)
+
+    # Séparation
+    ttk.Separator(frm, orient=HORIZONTAL).grid(
+        column=0, row=4, columnspan=4, pady=10, sticky="ew"
+    )
+
+    # Section Sélection de salle
+    ttk.Label(frm, text="Sélectionnez une salle:", font=("Arial", 12)).grid(
+        column=0, row=5, columnspan=4, pady=5
+    )
+
+    # Type de salle
+    ttk.Label(frm, text="Type de salle:").grid(column=0, row=6, sticky=E)
+    room_type = StringVar()
+    room_type_combobox = ttk.Combobox(
+        frm,
+        textvariable=room_type,
+        values=["Standard", "Conférence", "Informatique"],
+        state="readonly",
+    )
+    room_type_combobox.grid(column=1, row=6, sticky=W)
+    room_type_combobox.current(0)
+
+    # Bouton pour afficher les salles disponibles
+    ttk.Button(
+        frm,
+        text="Voir salles disponibles",
+        command=lambda: show_available_rooms(room_type.get()),
+    ).grid(column=2, row=6, columnspan=2, sticky=W)
+
+    # Liste des salles disponibles
+    rooms_listbox = Listbox(frm, height=4, selectmode=SINGLE)
+    rooms_listbox.grid(column=0, row=7, columnspan=4, pady=10, sticky="ew")
+
+    # Boutons
+    ttk.Button(frm, text="Retour", command=open_reserve_page).grid(
+        column=0, row=8, pady=20, sticky=E, columnspan=2
+    )
+    ttk.Button(
+        frm,
+        text="Confirmer",
+        command=lambda: finalize_reservation(
+            client,
+            f"{start_date} {start_time}",
+            f"{end_date} {end_time}",
+            rooms_listbox.get(ACTIVE),
+        ),
+    ).grid(column=2, row=8, pady=20, sticky=W, columnspan=2)
+
+    # Fonction pour afficher les salles disponibles
+    def show_available_rooms(selected_type):
+        rooms_listbox.delete(0, END)
+        # Exemple de données
+        available_rooms = {
+            "Standard": ["Salle 1 (Standard)", "Salle 3 (Standard)"],
+            "Conférence": ["Salle 2 (Conférence)", "Salle 4 (Conférence)"],
+            "Informatique": ["Salle 5 (Informatique)"],
+        }
+        for room in available_rooms.get(selected_type, []):
+            rooms_listbox.insert(END, room)
+
+    # Initialisation
+    show_available_rooms(room_type.get())
+
+
+def finalize_reservation(client, start, end, room):
+    if not room:
+        messagebox.showerror("Erreur", "Veuillez sélectionner une salle")
+    else:
+        messagebox.showinfo(
+            "Succès",
+            f"Réservation confirmée pour:\n"
+            f"Client: {client}\n"
+            f"Salle: {room}\n"
+            f"Du {start} au {end}",
+        )
+        show_home()
 
 
 # Fonction pour afficher la page Afficher
