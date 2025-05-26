@@ -26,6 +26,15 @@
                 "ID": 0,
                 "Reservations": []
             }
+        },
+        {
+            "NDINGA Albin": {
+                "Nom": "NDINGA",
+                "Prenom": "Albin",
+                "Mail": "albin.ndinga@uha.fr",
+                "ID": 0,
+                "Reservations": []
+            }
         }
     ],
     "Salles": [
@@ -33,6 +42,22 @@
             "Salle 0": {
                 "Type": "Informatique",
                 "Capacite": 0,
+                "Date d'indisponibilite": []
+            }
+        },
+        {
+            "Salle 0.1": {
+                "Room Id": "0.1",
+                "Type": "Standard",
+                "Capacite": "2",
+                "Date d'indisponibilite": []
+            }
+        },
+        {
+            "Salle 0.2": {
+                "Room Id": "0.2",
+                "Type": "Conference",
+                "Capacite": "3",
                 "Date d'indisponibilite": []
             }
         }

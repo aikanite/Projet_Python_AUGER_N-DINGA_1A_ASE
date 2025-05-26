@@ -240,12 +240,16 @@ def open_reserve_page():
     ttk.Label(frm, text="HH:MM").grid(column=2, row=4, sticky=W)
 
     # Section Client
+    with open("data.json", "r") as f:
+        data = json.load(f)
+
+    clients = data["Clients"]
+    liste_cles = [list(client.keys())[0] for client in clients]
+
     ttk.Label(frm, text="Client:").grid(column=0, row=5, pady=5, sticky=E)
 
     client_var = StringVar()
-    client_combobox = ttk.Combobox(
-        frm, textvariable=client_var, values=["Client 1", "Client 2", "Client 3"]
-    )
+    client_combobox = ttk.Combobox(frm, textvariable=client_var, values=liste_cles)
     client_combobox.grid(column=1, row=5, pady=5, sticky=W, columnspan=2)
     client_combobox.set("Sélectionner un client")
 
@@ -368,7 +372,7 @@ def show_room_selection(start_date, start_time, end_date, end_time, client):
     room_type_combobox = ttk.Combobox(
         frm,
         textvariable=room_type,
-        values=["Standard", "Conférence", "Informatique"],
+        values=["Standard", "Conference", "Informatique"],
         state="readonly",
     )
     room_type_combobox.grid(column=1, row=6, sticky=W)
@@ -402,13 +406,28 @@ def show_room_selection(start_date, start_time, end_date, end_time, client):
 
     # Fonction pour afficher les salles disponibles
     def show_available_rooms(selected_type):
+        with open("data.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        salles = data["Salles"]
+        liste_cles_salles = [list(salle.keys())[0] for salle in salles]
+
+        # Dictionnaire pour stocker les salles triées par catégorie
+        categories = {"Informatique": [], "Conference": [], "Standard": []}
+
+        for salle in salles:
+            for nom_salle, infos in salle.items():
+                cat = infos.get("Type")
+                if cat in categories:
+                    categories[cat].append(nom_salle)
+                else:
+                    categories["Standard"].append(
+                        nom_salle
+                    )  # Par défaut si catégorie inconnue
+
         rooms_listbox.delete(0, END)
         # Exemple de données
-        available_rooms = {
-            "Standard": ["Salle 1 (Standard)", "Salle 3 (Standard)"],
-            "Conférence": ["Salle 2 (Conférence)", "Salle 4 (Conférence)"],
-            "Informatique": ["Salle 5 (Informatique)"],
-        }
+        available_rooms = categories
         for room in available_rooms.get(selected_type, []):
             rooms_listbox.insert(END, room)
 
