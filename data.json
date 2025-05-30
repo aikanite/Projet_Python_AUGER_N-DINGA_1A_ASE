@@ -5,8 +5,17 @@
                 "Nom": "AUGER",
                 "Prenom": "Kevin",
                 "Mail": "kevin.auger@uha.fr",
-                "ID": 0,
-                "Reservations": []
+                "ID": "0000",
+                "Reservations": [
+                    {
+                        "Salle": "Salle 1029",
+                        "Type": "Conference",
+                        "Capacite": "10",
+                        "DateDebut": "20/07/2025 14:00",
+                        "DateFin": "20/07/2025 15:00",
+                        "Duree": "1:00:00"
+                    }
+                ]
             }
         },
         {
@@ -14,7 +23,7 @@
                 "Nom": "fhfh",
                 "Prenom": "hrfjj",
                 "Mail": "eiide@hrrhr",
-                "ID": 0,
+                "ID": "0000",
                 "Reservations": []
             }
         },
@@ -23,7 +32,7 @@
                 "Nom": "gjgjgj",
                 "Prenom": "gngng",
                 "Mail": "gngng@jj",
-                "ID": 0,
+                "ID": "0000",
                 "Reservations": []
             }
         },
@@ -32,7 +41,7 @@
                 "Nom": "NDINGA",
                 "Prenom": "Albin",
                 "Mail": "albin.ndinga@uha.fr",
-                "ID": 0,
+                "ID": "0000",
                 "Reservations": []
             }
         }
@@ -98,7 +107,13 @@
                 "Room Id": "1029",
                 "Type": "Conference",
                 "Capacite": "10",
-                "Date d'indisponibilite": []
+                "Date d'indisponibilite": [
+                    {
+                        "DateDebut": "20/07/2025 14:00",
+                        "DateFin": "20/07/2025 15:00",
+                        "Duree": "1:00:00"
+                    }
+                ]
             }
         },
         {

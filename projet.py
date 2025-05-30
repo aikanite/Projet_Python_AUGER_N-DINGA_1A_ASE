@@ -4,6 +4,7 @@ from datetime import datetime
 from tkinter import ttk
 from tkinter import messagebox
 import json
+import uuid
 
 
 # Fonctions utilitaires
@@ -89,7 +90,8 @@ def open_add_page():
     ttk.Button(frm, text="Retour", command=show_home).grid(column=0, row=2, pady=10)
 
 
-def add_client(nom: str, prenom: str, mail: str, id=0, reservations=[]):
+def add_client(nom: str, prenom: str, mail: str, reservations=[]):
+    id = str(uuid.uuid4())[:10]  # 1000 milliards de possibilités
     with open("data.json") as json_file:
         data = json.load(json_file)
         temp = data["Clients"]
@@ -477,6 +479,37 @@ def finalize_reservation(client, start, end, room):
                 capacity=room_info["Capacite"],
             )
 
+        # Stocker la donnée
+        with open("data.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        reservation_dict = {
+            "Salle": room,
+            "Type": room_info["Type"],
+            "Capacite": room_info["Capacite"],
+            "DateDebut": start_dt.strftime("%d/%m/%Y %H:%M"),
+            "DateFin": end_dt.strftime("%d/%m/%Y %H:%M"),
+            "Duree": str(duration),
+        }
+        date_salle = {
+            "DateDebut": start_dt.strftime("%d/%m/%Y %H:%M"),
+            "DateFin": end_dt.strftime("%d/%m/%Y %H:%M"),
+            "Duree": str(duration),
+        }
+
+        # Ajout à la réservation du client
+        for clients in data["Clients"]:
+            if client in clients:
+                clients[client]["Reservations"].append(reservation_dict)
+        # Ajout à la réservation de la salle
+        for salle in data["Salles"]:
+            if room in salle:
+                salle[room]["Date d'indisponibilite"].append(date_salle)
+
+        # Sauvegarde directe
+        with open("data.json", "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+
 
 # Fonctions pour la section Afficher
 def open_display_page():
@@ -736,10 +769,10 @@ def show_reservations_table(client_name):
                         values=(
                             resa.get("Salle", "N/A"),
                             resa.get("Type", "N/A"),
-                            str(resa.get("Capacité", "N/A")),
-                            resa.get("DateDébut", "N/A"),
+                            str(resa.get("Capacite", "N/A")),
+                            resa.get("DateDebut", "N/A"),
                             resa.get("DateFin", "N/A"),
-                            resa.get("Durée", "N/A"),
+                            resa.get("Duree", "N/A"),
                         ),
                     )
     except Exception as e:
