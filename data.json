@@ -11,9 +11,9 @@
                         "Salle": "Salle 1029",
                         "Type": "Conference",
                         "Capacite": "10",
-                        "DateDebut": "20/07/2025 14:00",
-                        "DateFin": "20/07/2025 15:00",
-                        "Duree": "1:00:00"
+                        "DateDebut": "20/07/2025 \n 14:00",
+                        "DateFin": "20/07/2025 \n 15:30",
+                        "Duree": 1.5
                     }
                 ]
             }
@@ -42,6 +42,15 @@
                 "Prenom": "Albin",
                 "Mail": "albin.ndinga@uha.fr",
                 "ID": "0000",
+                "Reservations": []
+            }
+        },
+        {
+            "AUGER auger": {
+                "Nom": "AUGER",
+                "Prenom": "auger",
+                "Mail": "auger@uha.fr",
+                "ID": "7b0f95fc-f",
                 "Reservations": []
             }
         }
@@ -109,9 +118,9 @@
                 "Capacite": "10",
                 "Date d'indisponibilite": [
                     {
-                        "DateDebut": "20/07/2025 14:00",
-                        "DateFin": "20/07/2025 15:00",
-                        "Duree": "1:00:00"
+                        "DateDebut": "20/07/2025 \n 14:00",
+                        "DateFin": "20/07/2025 \n 15:30",
+                        "Duree": 1.5
                     }
                 ]
             }
