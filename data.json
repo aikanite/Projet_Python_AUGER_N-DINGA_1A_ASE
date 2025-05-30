@@ -60,6 +60,70 @@
                 "Capacite": "3",
                 "Date d'indisponibilite": []
             }
+        },
+        {
+            "Salle 23": {
+                "Room Id": "23",
+                "Type": "Conference",
+                "Capacite": "1",
+                "Date d'indisponibilite": []
+            }
+        },
+        {
+            "Salle 45": {
+                "Room Id": "45",
+                "Type": "Informatique",
+                "Capacite": "1",
+                "Date d'indisponibilite": []
+            }
+        },
+        {
+            "Salle 1": {
+                "Room Id": "1",
+                "Type": "Standard",
+                "Capacite": "1",
+                "Date d'indisponibilite": []
+            }
+        },
+        {
+            "Salle 32": {
+                "Room Id": "32",
+                "Type": "Informatique",
+                "Capacite": "4",
+                "Date d'indisponibilite": []
+            }
+        },
+        {
+            "Salle 1029": {
+                "Room Id": "1029",
+                "Type": "Conference",
+                "Capacite": "10",
+                "Date d'indisponibilite": []
+            }
+        },
+        {
+            "Salle 12": {
+                "Room Id": "12",
+                "Type": "Standard",
+                "Capacite": "1",
+                "Date d'indisponibilite": []
+            }
+        },
+        {
+            "Salle 302": {
+                "Room Id": "302",
+                "Type": "Standard",
+                "Capacite": "1",
+                "Date d'indisponibilite": []
+            }
+        },
+        {
+            "Salle 30002": {
+                "Room Id": "30002",
+                "Type": "Standard",
+                "Capacite": "1",
+                "Date d'indisponibilite": []
+            }
         }
     ]
 }
