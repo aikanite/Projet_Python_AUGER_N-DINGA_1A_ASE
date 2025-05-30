@@ -1046,3 +1046,5 @@ for i in range(5):
 # Lancement de l'application
 show_home()
 root.mainloop()
+
+# fin
