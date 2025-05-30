@@ -441,6 +441,28 @@ def finalize_reservation(client, start, end, room):
                 capacity=room_info["Capacite"],
             )
 
+        # Stocker la donnée
+        with open("data.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        reservation_dict = {
+            "Salle": room,
+            "Type": room_info["Type"],
+            "Capacite": room_info["Capacite"],
+            "DateDebut": start_dt.strftime("%d/%m/%Y %H:%M"),
+            "DateFin": end_dt.strftime("%d/%m/%Y %H:%M"),
+            "Duree": str(duration),  # ou duration_str si tu veux "2h00" par exemple
+        }
+
+        # Ajout à la réservation du client "AUGER Kevin"
+        for client in data["Clients"]:
+            if "AUGER Kevin" in client:
+                client["AUGER Kevin"]["Reservations"].append(reservation_dict)
+
+        # Sauvegarde directe sans passer par write_json
+        with open("data.json", "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+
 
 # Fonctions pour la section Afficher
 def open_display_page():
@@ -700,10 +722,10 @@ def show_reservations_table(client_name):
                         values=(
                             resa.get("Salle", "N/A"),
                             resa.get("Type", "N/A"),
-                            str(resa.get("Capacité", "N/A")),
-                            resa.get("DateDébut", "N/A"),
+                            str(resa.get("Capacite", "N/A")),
+                            resa.get("DateDebut", "N/A"),
                             resa.get("DateFin", "N/A"),
-                            resa.get("Durée", "N/A"),
+                            resa.get("Duree", "N/A"),
                         ),
                     )
     except Exception as e:

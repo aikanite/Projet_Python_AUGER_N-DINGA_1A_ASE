@@ -6,7 +6,16 @@
                 "Prenom": "Kevin",
                 "Mail": "kevin.auger@uha.fr",
                 "ID": 0,
-                "Reservations": []
+                "Reservations": [
+                    {
+                        "Salle": "Salle 45",
+                        "Type": "Informatique",
+                        "Capacite": "1",
+                        "DateDebut": "20/07/2025 14:00",
+                        "DateFin": "20/07/2025 15:00",
+                        "Duree": "1:00:00"
+                    }
+                ]
             }
         },
         {
