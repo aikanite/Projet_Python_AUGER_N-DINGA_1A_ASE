@@ -730,7 +730,7 @@ def show_reservations_table(client_name):
         frm, text=f"Réservations du client : {client_name}", font=("Arial", 14)
     ).grid(column=0, row=0, pady=10, columnspan=6)
     table_frame = ttk.Frame(frm)
-    table_frame.grid(column=0, row=1, columnspan=6, pady=10, sticky="nsew")
+    table_frame.grid(column=0, row=1, columnspan=6, pady=50, sticky="nsew")
     scrollbar = ttk.Scrollbar(table_frame)
     scrollbar.pack(side=RIGHT, fill=Y)
     columns = ("salle", "type", "capacite", "date_debut", "date_fin", "duree")
@@ -740,7 +740,9 @@ def show_reservations_table(client_name):
         show="headings",
         yscrollcommand=scrollbar.set,
         height=10,
+        style="Custom.Treeview",  # Applique le style personnalisé
     )
+
     tree.pack(side=LEFT, fill=BOTH, expand=True)
     scrollbar.config(command=tree.yview)
 
@@ -973,6 +975,8 @@ root.title("MeetingPro")
 root.geometry("1000x900")
 root.minsize(1000, 900)
 root.configure(bg="lightgray")  # Fond en lightgray
+style = ttk.Style()
+style.configure("Custom.Treeview", rowheight=35)  # 35 pixels de hauteur par défaut
 
 # Configurer le style global
 style = ttk.Style()
