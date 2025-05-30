@@ -551,25 +551,25 @@ def open_display_page():
         frm,
         text="Afficher liste des salles",
         command=display_rooms_list,
-        width=30,
+        width=50,
     ).grid(column=0, row=1, pady=10, padx=10, columnspan=2)
     ttk.Button(
         frm,
         text="Afficher liste des clients",
         command=display_clients_list,
-        width=30,
+        width=50,
     ).grid(column=0, row=2, pady=10, padx=10, columnspan=2)
     ttk.Button(
         frm,
         text="Afficher les salles disponibles pour un créneau",
         command=display_available_slots,
-        width=30,
+        width=50,
     ).grid(column=0, row=3, pady=10, padx=10, columnspan=2)
     ttk.Button(
         frm,
         text="Afficher les réservations d'un client",
         command=display_client_reservations,
-        width=30,
+        width=50,
     ).grid(column=0, row=4, pady=10, padx=10, columnspan=2)
     ttk.Button(frm, text="Retour", command=show_home).grid(
         column=0, row=5, pady=20, columnspan=2
@@ -759,7 +759,7 @@ def show_reservations_table(client_name):
         frm, text=f"Réservations du client : {client_name}", font=("Arial", 14)
     ).grid(column=0, row=0, pady=10, columnspan=6)
     table_frame = ttk.Frame(frm)
-    table_frame.grid(column=0, row=1, columnspan=6, pady=10, sticky="nsew")
+    table_frame.grid(column=0, row=1, columnspan=6, pady=50, sticky="nsew")
     scrollbar = ttk.Scrollbar(table_frame)
     scrollbar.pack(side=RIGHT, fill=Y)
     columns = ("salle", "type", "capacite", "date_debut", "date_fin", "duree")
@@ -771,7 +771,9 @@ def show_reservations_table(client_name):
         show="headings",
         yscrollcommand=scrollbar.set,
         height=10,
+        style="Custom.Treeview",  # Applique le style personnalisé
     )
+
     tree.pack(side=LEFT, fill=BOTH, expand=True)
     scrollbar.config(command=tree.yview)
 
@@ -1002,9 +1004,11 @@ def show_available_rooms_table(start_datetime, end_datetime):
 # Initialisation de l'application
 root = Tk()
 root.title("MeetingPro")
-root.geometry("1000x800")
-root.minsize(1000, 800)
+root.geometry("1000x900")
+root.minsize(1000, 900)
 root.configure(bg="lightgray")  # Fond en lightgray
+style = ttk.Style()
+style.configure("Custom.Treeview", rowheight=35)  # 35 pixels de hauteur par défaut
 
 # Configurer le style global
 style = ttk.Style()
