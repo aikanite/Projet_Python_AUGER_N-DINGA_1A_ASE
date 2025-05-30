@@ -45,3 +45,13 @@ for salle in salles:
             categories["Standard"].append(nom_salle)  # Par défaut si catégorie inconnue
 
 print(categories)
+
+
+# IDENTIFIANT CLIENT
+import uuid
+
+
+ID = uuid.bytes_()
+
+str(ID)
+print(ID)
