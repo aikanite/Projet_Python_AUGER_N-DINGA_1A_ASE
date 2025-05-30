@@ -4,6 +4,7 @@ from datetime import datetime
 from tkinter import ttk
 from tkinter import messagebox
 import json
+import uuid
 
 
 # Fonctions utilitaires
@@ -89,7 +90,8 @@ def open_add_page():
     ttk.Button(frm, text="Retour", command=show_home).grid(column=0, row=2, pady=10)
 
 
-def add_client(nom: str, prenom: str, mail: str, id=0, reservations=[]):
+def add_client(nom: str, prenom: str, mail: str, reservations=[]):
+    id = str(uuid.uuid4())[:10]  # 1000 milliards de possibilités
     with open("data.json") as json_file:
         data = json.load(json_file)
         temp = data["Clients"]
@@ -487,15 +489,24 @@ def finalize_reservation(client, start, end, room):
             "Capacite": room_info["Capacite"],
             "DateDebut": start_dt.strftime("%d/%m/%Y %H:%M"),
             "DateFin": end_dt.strftime("%d/%m/%Y %H:%M"),
-            "Duree": str(duration),  # ou duration_str si tu veux "2h00" par exemple
+            "Duree": str(duration),
+        }
+        date_salle = {
+            "DateDebut": start_dt.strftime("%d/%m/%Y %H:%M"),
+            "DateFin": end_dt.strftime("%d/%m/%Y %H:%M"),
+            "Duree": str(duration),
         }
 
-        # Ajout à la réservation du client "AUGER Kevin"
-        for client in data["Clients"]:
-            if "AUGER Kevin" in client:
-                client["AUGER Kevin"]["Reservations"].append(reservation_dict)
+        # Ajout à la réservation du client
+        for clients in data["Clients"]:
+            if client in clients:
+                clients[client]["Reservations"].append(reservation_dict)
+        # Ajout à la réservation de la salle
+        for salle in data["Salles"]:
+            if room in salle:
+                salle[room]["Date d'indisponibilite"].append(date_salle)
 
-        # Sauvegarde directe sans passer par write_json
+        # Sauvegarde directe
         with open("data.json", "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
 
