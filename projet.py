@@ -29,15 +29,51 @@ def set_active_button(active_page):
 def show_home():
     clear_frame()
     set_active_button("Accueil")
-    ttk.Button(frm, text="Ajouter", command=open_add_page).grid(
-        column=0, row=0, pady=10, padx=50
+
+    # Style personnalisé pour les boutons
+    style = ttk.Style()
+    style.configure(
+        "Accueil.TButton",
+        font=("Arial", 14, "bold"),
+        padding=20,
+        width=15,
+        relief="solid",
+        borderwidth=2,
     )
-    ttk.Button(frm, text="Réserver", command=open_reserve_page).grid(
-        column=0, row=1, pady=10
+
+    # Cadre principal qui s'étire
+    main_frame = ttk.Frame(frm)
+    main_frame.grid(column=0, row=0, sticky="nsew", padx=50, pady=50)
+
+    # Configuration du redimensionnement
+    frm.columnconfigure(0, weight=1)
+    frm.rowconfigure(0, weight=1)
+    main_frame.columnconfigure(0, weight=1)
+    for i in range(3):  # 3 lignes pour les boutons
+        main_frame.rowconfigure(i, weight=1)
+
+    # Boutons qui s'adaptent
+    btn_add = ttk.Button(
+        main_frame, text="Ajouter", command=open_add_page, style="Accueil.TButton"
     )
-    ttk.Button(frm, text="Afficher", command=open_display_page).grid(
-        column=0, row=2, pady=10
+    btn_add.grid(column=0, row=0, sticky="nsew", padx=20, pady=10)
+
+    btn_reserve = ttk.Button(
+        main_frame, text="Réserver", command=open_reserve_page, style="Accueil.TButton"
     )
+    btn_reserve.grid(column=0, row=1, sticky="nsew", padx=20, pady=10)
+
+    btn_display = ttk.Button(
+        main_frame, text="Afficher", command=open_display_page, style="Accueil.TButton"
+    )
+    btn_display.grid(column=0, row=2, sticky="nsew", padx=20, pady=10)
+
+    # Adapter dynamiquement la taille de police
+    def adjust_font(event):
+        new_size = max(10, min(24, int(event.width / 40)))
+        style.configure("Accueil.TButton", font=("Arial", new_size, "bold"))
+
+    main_frame.bind("<Configure>", adjust_font)
 
 
 # Fonctions pour la section Ajouter
@@ -923,8 +959,14 @@ def show_available_rooms_table(start_datetime, end_datetime):
 # Initialisation de l'application
 root = Tk()
 root.title("MeetingPro")
-root.geometry("800x600")
-root.configure(bg="white")
+root.geometry("1000x800")
+root.minsize(1000, 800)
+root.configure(bg="lightgray")  # Fond en lightgray
+
+# Configurer le style global
+style = ttk.Style()
+style.theme_use("clam")  # Ou 'default', 'alt', 'clam', 'classic'
+style.configure("TFrame", background="lightgray")
 
 # Barre de navigation
 nav_frame = Frame(root, bg="white")
