@@ -462,6 +462,34 @@ def finalize_reservation(client, start, end, room):
                     room_info = salle[room]
                     break
 
+        start_dt = datetime.strptime(start, "%d/%m/%Y %H:%M")
+        end_dt = datetime.strptime(end, "%d/%m/%Y %H:%M")
+
+        # Vérification de conflit de réservation pour la salle
+        conflit = False
+        for salle in data["Salles"]:
+            if room in salle:
+                for indispo in salle[room].get("Date d'indisponibilite", []):
+                    # Récupère les dates de début et fin de chaque indisponibilité existante
+                    resa_start = datetime.strptime(
+                        indispo["DateDebut"], "%d/%m/%Y \n %H:%M"
+                    )
+                    resa_end = datetime.strptime(
+                        indispo["DateFin"], "%d/%m/%Y \n %H:%M"
+                    )
+                    # Teste le chevauchement
+                    if not (end_dt <= resa_start or start_dt >= resa_end):
+                        conflit = True
+                        break
+            if conflit:
+                break
+
+        if conflit:
+            messagebox.showerror(
+                "Erreur",
+                f"La salle '{room}' est déjà réservée sur ce créneau ou une partie de ce créneau.",
+            )
+            return  # On arrête la fonction ici
         if room_info:
             start_dt = datetime.strptime(start, "%d/%m/%Y %H:%M")
             end_dt = datetime.strptime(end, "%d/%m/%Y %H:%M")
@@ -469,6 +497,7 @@ def finalize_reservation(client, start, end, room):
             hours = duration.seconds // 3600
             minutes = (duration.seconds % 3600) // 60
             duration_str = f"{hours}h{minutes:02d}"
+            duration_float = (end_dt - start_dt).total_seconds() / 3600
             show_reservation_confirmation(
                 client=client,
                 start=start,
@@ -487,14 +516,14 @@ def finalize_reservation(client, start, end, room):
             "Salle": room,
             "Type": room_info["Type"],
             "Capacite": room_info["Capacite"],
-            "DateDebut": start_dt.strftime("%d/%m/%Y %H:%M"),
-            "DateFin": end_dt.strftime("%d/%m/%Y %H:%M"),
-            "Duree": str(duration),
+            "DateDebut": start_dt.strftime("%d/%m/%Y \n %H:%M"),
+            "DateFin": end_dt.strftime("%d/%m/%Y \n %H:%M"),
+            "Duree": duration_float,
         }
         date_salle = {
-            "DateDebut": start_dt.strftime("%d/%m/%Y %H:%M"),
-            "DateFin": end_dt.strftime("%d/%m/%Y %H:%M"),
-            "Duree": str(duration),
+            "DateDebut": start_dt.strftime("%d/%m/%Y \n %H:%M"),
+            "DateFin": end_dt.strftime("%d/%m/%Y \n %H:%M"),
+            "Duree": duration_float,
         }
 
         # Ajout à la réservation du client
@@ -734,13 +763,17 @@ def show_reservations_table(client_name):
     scrollbar = ttk.Scrollbar(table_frame)
     scrollbar.pack(side=RIGHT, fill=Y)
     columns = ("salle", "type", "capacite", "date_debut", "date_fin", "duree")
+    style = ttk.Style()
+    style.configure("Treeview", rowheight=40)  # Pour bien afficher la date et l'heure
     tree = ttk.Treeview(
         table_frame,
         columns=columns,
         show="headings",
         yscrollcommand=scrollbar.set,
         height=10,
+        style="Custom.Treeview",  # Applique le style personnalisé
     )
+
     tree.pack(side=LEFT, fill=BOTH, expand=True)
     scrollbar.config(command=tree.yview)
 
@@ -927,12 +960,13 @@ def show_available_rooms_table(start_datetime, end_datetime):
                     is_available = True
                     for resa in reservations:
                         if resa.get("Salle") == room_name:
-                            resa_start = datetime.strptime(
-                                resa.get("DateDébut"), "%d/%m/%Y %H:%M"
-                            )
-                            resa_end = datetime.strptime(
-                                resa.get("DateFin"), "%d/%m/%Y %H:%M"
-                            )
+                            date_debut = resa.get("DateDebut") or resa.get("DateDébut")
+                            date_fin = resa.get("DateFin")
+                            if not date_debut or not date_fin:
+                                continue  # Ignore cette réservation si une date manque
+                            resa_start = datetime.strptime(date_debut, "%d/%m/%Y %H:%M")
+                            resa_end = datetime.strptime(date_fin, "%d/%m/%Y %H:%M")
+
                             if not (end_dt <= resa_start or start_dt >= resa_end):
                                 is_available = False
                                 break
@@ -973,6 +1007,8 @@ root.title("MeetingPro")
 root.geometry("1000x900")
 root.minsize(1000, 900)
 root.configure(bg="lightgray")  # Fond en lightgray
+style = ttk.Style()
+style.configure("Custom.Treeview", rowheight=35)  # 35 pixels de hauteur par défaut
 
 # Configurer le style global
 style = ttk.Style()
