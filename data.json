@@ -11,9 +11,9 @@
                         "Salle": "Salle 1029",
                         "Type": "Conference",
                         "Capacite": "10",
-                        "DateDebut": "20/07/2025 14:00",
-                        "DateFin": "20/07/2025 15:00",
-                        "Duree": "1:00:00"
+                        "DateDebut": "20/07/2025 \n 14:00",
+                        "DateFin": "20/07/2025 \n 15:30",
+                        "Duree": 1.5
                     }
                 ]
             }
@@ -70,6 +70,15 @@
                         "Duree": "1:30:00"
                     }
                 ]
+            }
+        },
+        {
+            "AUGER auger": {
+                "Nom": "AUGER",
+                "Prenom": "auger",
+                "Mail": "auger@uha.fr",
+                "ID": "7b0f95fc-f",
+                "Reservations": []
             }
         }
     ],
@@ -135,21 +144,7 @@
                 "Type": "Conference",
                 "Capacite": "10",
                 "Date d'indisponibilite": [
-                    {
-                        "DateDebut": "20/07/2025 14:00",
-                        "DateFin": "20/07/2025 15:00",
-                        "Duree": "1:00:00"
-                    },
-                    {
-                        "DateDebut": "20/04/2025 10:00",
-                        "DateFin": "20/04/2025 11:30",
-                        "Duree": "1:30:00"
-                    },
-                    {
-                        "DateDebut": "20/07/2025 14:00",
-                        "DateFin": "20/07/2025 15:00",
-                        "Duree": "1:00:00"
-                    }
+                   
                 ]
             }
         },
