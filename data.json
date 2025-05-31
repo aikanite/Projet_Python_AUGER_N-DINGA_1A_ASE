@@ -8,77 +8,80 @@
                 "ID": "0000",
                 "Reservations": [
                     {
-                        "Salle": "Salle 1029",
-                        "Type": "Conference",
-                        "Capacite": "10",
-                        "DateDebut": "20/07/2025 \n 14:00",
-                        "DateFin": "20/07/2025 \n 15:30",
-                        "Duree": 1.5
+                        "Salle": "Salle 0",
+                        "Type": "Informatique",
+                        "Capacite": 1,
+                        "DateDebut": "12/02/2025 \n 07:30",
+                        "DateFin": "12/02/2025 \n 08:30",
+                        "Duree": 1.0
+                    },
+                    {
+                        "Salle": "Salle 20",
+                        "Type": "Standard",
+                        "Capacite": "3",
+                        "DateDebut": "10/12/2025 \n 19:00",
+                        "DateFin": "10/12/2025 \n 20:00",
+                        "Duree": 1.0
+                    },
+                    {
+                        "Salle": "Salle 20",
+                        "Type": "Standard",
+                        "Capacite": "3",
+                        "DateDebut": "12/09/2025 \n 18:00",
+                        "DateFin": "12/09/2025 \n 19:00",
+                        "Duree": 1.0
                     }
                 ]
             }
         },
         {
-            "fhfh hrfjj": {
-                "Nom": "fhfh",
-                "Prenom": "hrfjj",
-                "Mail": "eiide@hrrhr",
-                "ID": "0000",
-                "Reservations": []
-            }
-        },
-        {
-            "gjgjgj gngng": {
-                "Nom": "gjgjgj",
-                "Prenom": "gngng",
-                "Mail": "gngng@jj",
-                "ID": "0000",
-                "Reservations": []
-            }
-        },
-        {
-            "NDINGA Albin": {
-                "Nom": "NDINGA",
-                "Prenom": "Albin",
+            "albin ndinga": {
+                "Nom": "albin",
+                "Prenom": "ndinga",
                 "Mail": "albin.ndinga@uha.fr",
-                "ID": "0000",
+                "ID": "d6c6e7f0-f",
                 "Reservations": [
                     {
-                        "Salle": "Salle 1029",
-                        "Type": "Conference",
-                        "Capacite": "10",
-                        "DateDebut": "20/07/2025 14:00",
-                        "DateFin": "20/07/2025 15:00",
-                        "Duree": "1:00:00"
-                    }
-                ]
-            }
-        },
-        {
-            "Ndinga  Lenny ": {
-                "Nom": "Ndinga ",
-                "Prenom": "Lenny ",
-                "Mail": "lenny.ndinga@gmail.com",
-                "ID": "c9b2bd58-e",
-                "Reservations": [
+                        "Salle": "Salle 20",
+                        "Type": "Standard",
+                        "Capacite": "3",
+                        "DateDebut": "12/02/2025 \n 08:00",
+                        "DateFin": "12/02/2025 \n 09:00",
+                        "Duree": 1.0
+                    },
                     {
-                        "Salle": "Salle 1029",
-                        "Type": "Conference",
-                        "Capacite": "10",
-                        "DateDebut": "20/04/2025 10:00",
-                        "DateFin": "20/04/2025 11:30",
-                        "Duree": "1:30:00"
+                        "Salle": "Salle 0",
+                        "Type": "Informatique",
+                        "Capacite": 1,
+                        "DateDebut": "22/10/2026 \n 15:00",
+                        "DateFin": "22/10/2026 \n 16:00",
+                        "Duree": 1.0
+                    },
+                    {
+                        "Salle": "Salle 20",
+                        "Type": "Standard",
+                        "Capacite": "3",
+                        "DateDebut": "12/12/2025 \n 15:00",
+                        "DateFin": "12/12/2025 \n 16:00",
+                        "Duree": 1.0
+                    },
+                    {
+                        "Salle": "Salle 0",
+                        "Type": "Informatique",
+                        "Capacite": 1,
+                        "DateDebut": "12/12/2025 \n 15:00",
+                        "DateFin": "12/12/2025 \n 16:00",
+                        "Duree": 1.0
+                    },
+                    {
+                        "Salle": "Salle 20",
+                        "Type": "Standard",
+                        "Capacite": "3",
+                        "DateDebut": "25/04/2025 \n 08:00",
+                        "DateFin": "25/04/2025 \n 09:00",
+                        "Duree": 1.0
                     }
                 ]
-            }
-        },
-        {
-            "AUGER auger": {
-                "Nom": "AUGER",
-                "Prenom": "auger",
-                "Mail": "auger@uha.fr",
-                "ID": "7b0f95fc-f",
-                "Reservations": []
             }
         }
     ],
@@ -86,90 +89,58 @@
         {
             "Salle 0": {
                 "Type": "Informatique",
-                "Capacite": 0,
-                "Date d'indisponibilite": []
-            }
-        },
-        {
-            "Salle 0.1": {
-                "Room Id": "0.1",
-                "Type": "Standard",
-                "Capacite": "2",
-                "Date d'indisponibilite": []
-            }
-        },
-        {
-            "Salle 0.2": {
-                "Room Id": "0.2",
-                "Type": "Conference",
-                "Capacite": "3",
-                "Date d'indisponibilite": []
-            }
-        },
-        {
-            "Salle 23": {
-                "Room Id": "23",
-                "Type": "Conference",
-                "Capacite": "1",
-                "Date d'indisponibilite": []
-            }
-        },
-        {
-            "Salle 45": {
-                "Room Id": "45",
-                "Type": "Informatique",
-                "Capacite": "1",
-                "Date d'indisponibilite": []
-            }
-        },
-        {
-            "Salle 1": {
-                "Room Id": "1",
-                "Type": "Standard",
-                "Capacite": "1",
-                "Date d'indisponibilite": []
-            }
-        },
-        {
-            "Salle 32": {
-                "Room Id": "32",
-                "Type": "Informatique",
-                "Capacite": "4",
-                "Date d'indisponibilite": []
-            }
-        },
-        {
-            "Salle 1029": {
-                "Room Id": "1029",
-                "Type": "Conference",
-                "Capacite": "10",
+                "Capacite": 1,
                 "Date d'indisponibilite": [
-                   
+                    {
+                        "DateDebut": "12/02/2025 \n 07:30",
+                        "DateFin": "12/02/2025 \n 08:30",
+                        "Duree": 1.0
+                    },
+                    {
+                        "DateDebut": "22/10/2026 \n 15:00",
+                        "DateFin": "22/10/2026 \n 16:00",
+                        "Duree": 1.0
+                    },
+                    {
+                        "DateDebut": "12/12/2025 \n 15:00",
+                        "DateFin": "12/12/2025 \n 16:00",
+                        "Duree": 1.0
+                    }
                 ]
             }
         },
         {
-            "Salle 12": {
-                "Room Id": "12",
+            "Salle 20": {
+                "Room Id": "20",
                 "Type": "Standard",
-                "Capacite": "1",
-                "Date d'indisponibilite": []
-            }
-        },
-        {
-            "Salle 302": {
-                "Room Id": "302",
-                "Type": "Standard",
-                "Capacite": "1",
-                "Date d'indisponibilite": []
-            }
-        },
-        {
-            "Salle 30002": {
-                "Room Id": "30002",
-                "Type": "Standard",
-                "Capacite": "1",
-                "Date d'indisponibilite": []
+                "Capacite": "3",
+                "Date d'indisponibilite": [
+                    {
+                        "DateDebut": "12/02/2025 \n 08:00",
+                        "DateFin": "12/02/2025 \n 09:00",
+                        "Duree": 1.0
+                    },
+                    {
+                        "DateDebut": "12/12/2025 \n 15:00",
+                        "DateFin": "12/12/2025 \n 16:00",
+                        "Duree": 1.0
+                    },
+                    {
+                        "DateDebut": "10/12/2025 \n 19:00",
+                        "DateFin": "10/12/2025 \n 20:00",
+                        "Duree": 1.0
+                    },
+                    {
+                        "DateDebut": "12/09/2025 \n 18:00",
+                        "DateFin": "12/09/2025 \n 19:00",
+                        "Duree": 1.0
+                    },
+                    {
+                        "DateDebut": "25/04/2025 \n 08:00",
+                        "DateFin": "25/04/2025 \n 09:00",
+                        "Duree": 1.0
+                    }
+                ]
             }
         }
     ]

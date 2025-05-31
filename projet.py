@@ -21,9 +21,24 @@ def clear_frame():
 def set_active_button(active_page):
     for button in nav_buttons:
         if button["text"] == active_page:
-            button.config(bg="#0078D7", fg="blue")
+            button.config(style="ActiveNav.TButton")
         else:
-            button.config(bg="SystemButtonFace", fg="black")
+            button.config(style="Nav.TButton")
+
+    # Et ajoutez ce style :
+    style.configure(
+        "ActiveNav.TButton",
+        font=("Arial", 11, "bold"),
+        padding=5,
+        relief=FLAT,
+        background="#686868",
+        foreground="white",
+    )
+    style.map(
+        "ActiveNav.TButton",
+        background=[("active", "#D0D1D4"), ("pressed", "#BEBEBE")],
+        foreground=[("active", "white")],
+    )
 
 
 # Fonctions principales - Navigation
@@ -31,48 +46,47 @@ def show_home():
     clear_frame()
     set_active_button("Accueil")
 
-    # Style personnalisé pour les boutons
+    # Style basé sur le thème clam
     style = ttk.Style()
-    style.configure(
-        "Accueil.TButton",
-        font=("Arial", 14, "bold"),
-        padding=20,
-        width=15,
-        relief="solid",
-        borderwidth=2,
+    style.theme_use("clam")
+
+    style.map(
+        "Home.TButton", background=[("active", "#d0d0d0"), ("pressed", "#c0c0c0")]
     )
 
-    # Cadre principal qui s'étire
-    main_frame = ttk.Frame(frm)
+    # Cadre principal
+    main_frame = ttk.Frame(frm, style="Home.TFrame")
     main_frame.grid(column=0, row=0, sticky="nsew", padx=50, pady=50)
-
-    # Configuration du redimensionnement
-    frm.columnconfigure(0, weight=1)
-    frm.rowconfigure(0, weight=1)
-    main_frame.columnconfigure(0, weight=1)
-    for i in range(3):  # 3 lignes pour les boutons
-        main_frame.rowconfigure(i, weight=1)
-
-    # Boutons qui s'adaptent
-    btn_add = ttk.Button(
-        main_frame, text="Ajouter", command=open_add_page, style="Accueil.TButton"
+    # Ajoutez cette configuration du style AVANT de créer les boutons
+    style.configure(
+        "Home.TButton",
+        padding=(
+            150,
+            15,
+        ),  # (horizontal, vertical) - Augmentez 100 pour plus de largeur
+        width=0,  # Désactive la largeur fixe en caractères
     )
-    btn_add.grid(column=0, row=0, sticky="nsew", padx=20, pady=10)
+
+    # Création des boutons avec espacement
+    btn_add = ttk.Button(
+        main_frame, text="Ajouter", command=open_add_page, style="Home.TButton"
+    )
+    btn_add.grid(column=0, row=0, sticky="nsew", padx=30, pady=15)
 
     btn_reserve = ttk.Button(
-        main_frame, text="Réserver", command=open_reserve_page, style="Accueil.TButton"
+        main_frame, text="Réserver", command=open_reserve_page, style="Home.TButton"
     )
-    btn_reserve.grid(column=0, row=1, sticky="nsew", padx=20, pady=10)
+    btn_reserve.grid(column=0, row=1, sticky="nsew", padx=30, pady=15)
 
     btn_display = ttk.Button(
-        main_frame, text="Afficher", command=open_display_page, style="Accueil.TButton"
+        main_frame, text="Afficher", command=open_display_page, style="Home.TButton"
     )
-    btn_display.grid(column=0, row=2, sticky="nsew", padx=20, pady=10)
+    btn_display.grid(column=0, row=2, sticky="nsew", padx=30, pady=15)
 
-    # Adapter dynamiquement la taille de police
+    # Adaptation dynamique
     def adjust_font(event):
-        new_size = max(10, min(24, int(event.width / 40)))
-        style.configure("Accueil.TButton", font=("Arial", new_size, "bold"))
+        base_size = max(12, min(event.width // 30, 18))
+        style.configure("Home.TButton", font=("Arial", base_size, "bold"))
 
     main_frame.bind("<Configure>", adjust_font)
 
@@ -255,9 +269,39 @@ def open_reserve_page():
     clients = data["Clients"]
     liste_cles = [list(client.keys())[0] for client in clients]
     client_var = StringVar()
-    client_combobox = ttk.Combobox(frm, textvariable=client_var, values=liste_cles)
+
+    # Création d'un style personnalisé pour le champ de saisie blanc
+    style = ttk.Style()
+    style.map(
+        "White.TCombobox",
+        fieldbackground=[("readonly", "white"), ("!readonly", "white")],
+    )
+
+    client_combobox = ttk.Combobox(
+        frm, textvariable=client_var, values=liste_cles, style="White.TCombobox"
+    )
     client_combobox.grid(column=1, row=5, pady=5, sticky=W, columnspan=2)
+
+    # Définir le texte d'indication et l'état initial
     client_combobox.set("Sélectionner un client")
+    client_combobox.state(["readonly"])  # Empêche la saisie directe
+
+    # Fonction pour gérer le focus
+    def on_combobox_focus(event):
+        if client_var.get() == "Sélectionner un client":
+            client_combobox.set("")
+            client_combobox.state(["!readonly"])  # Permet la sélection
+
+    # Fonction pour gérer la perte de focus
+    def on_combobox_focusout(event):
+        if not client_var.get():
+            client_combobox.set("Sélectionner un client")
+            client_combobox.state(["readonly"])
+
+    # Lier les événements
+    client_combobox.bind("<FocusIn>", on_combobox_focus)
+    client_combobox.bind("<FocusOut>", on_combobox_focusout)
+
     ttk.Button(frm, text="Annuler", command=show_home).grid(
         column=0, row=6, pady=20, sticky=E, columnspan=2
     )
@@ -280,7 +324,7 @@ def validate_reservation(start_date, start_time, end_date, end_time, client):
             day, month, year = map(int, date_str.split("/"))
             if len(date_str) != 10 or date_str[2] != "/" or date_str[5] != "/":
                 return False
-            return 1 <= day <= 31 and 1 <= month <= 12 and year == 2025
+            return 1 <= day <= 31 and 1 <= month <= 12 and year >= 2025
         except:
             return False
 
@@ -310,6 +354,29 @@ def validate_reservation(start_date, start_time, end_date, end_time, client):
         errors.append("Heure fin invalide (HH:MM)")
     if client == "Sélectionner un client":
         errors.append("Client non sélectionné")
+
+        # Vérification de la durée seulement si les dates et heures sont valides
+    if not errors:
+        try:
+            # Convertir les dates et heures en objets datetime
+            start_dt = datetime.strptime(f"{start_date} {start_time}", "%d/%m/%Y %H:%M")
+            end_dt = datetime.strptime(f"{end_date} {end_time}", "%d/%m/%Y %H:%M")
+
+            # Vérifier que les dates sont identiques
+            if start_date != end_date:
+                errors.append("La date de début et de fin doivent être identiques")
+
+            # Vérification de la durée
+            duration = end_dt - start_dt
+            if duration.total_seconds() < 1800:  # 30 minutes
+                errors.append("La durée minimale de réservation est de 30 minutes")
+            elif end_dt <= start_dt:
+                errors.append(
+                    "La date/heure de fin doit être après la date/heure de début"
+                )
+
+        except:
+            errors.append("Erreur dans le calcul de la durée")
 
     if errors:
         messagebox.showerror("Erreurs", "\n".join(errors))
@@ -364,7 +431,7 @@ def show_room_selection(start_date, start_time, end_date, end_time, client):
     room_type_combobox.current(0)
     ttk.Button(
         frm,
-        text="Voir salles disponibles",
+        text="Voir les salles disponibles",
         command=lambda: show_available_rooms(room_type.get()),
     ).grid(column=2, row=6, columnspan=2, sticky=W)
     rooms_listbox = Listbox(frm, height=4, selectmode=SINGLE)
@@ -408,44 +475,63 @@ def show_reservation_confirmation(
     client, start, end, duration, room, room_type, capacity
 ):
     clear_frame()
-    ttk.Label(frm, text="Réservation Validée!", font=("Arial", 16, "bold")).grid(
-        column=0, row=0, pady=20, columnspan=2
+
+    # Style configuration
+    title_font = ("Arial", 18, "bold")
+    label_font = ("Arial", 14)
+    bold_font = ("Arial", 14, "bold")
+
+    # Main title
+    ttk.Label(frm, text="Réservation Validée!", font=title_font).grid(
+        column=0, row=0, pady=25, columnspan=2
     )
-    ttk.Label(frm, text="Client:", font=("Arial", 12, "bold")).grid(
+
+    # Client information
+    ttk.Label(frm, text="Client:", font=bold_font).grid(
         column=0, row=1, sticky=E, pady=5
     )
-    ttk.Label(frm, text=client, font=("Arial", 12)).grid(
-        column=1, row=1, sticky=W, pady=5
-    )
-    ttk.Label(frm, text="Début:", font=("Arial", 12)).grid(
+    ttk.Label(frm, text=client, font=label_font).grid(column=1, row=1, sticky=W, pady=5)
+
+    # Time slot information
+    ttk.Label(frm, text="Début:", font=bold_font).grid(
         column=0, row=2, sticky=E, pady=5
     )
-    ttk.Label(frm, text=start).grid(column=1, row=2, sticky=W, pady=5)
-    ttk.Label(frm, text="Fin:", font=("Arial", 12)).grid(
-        column=0, row=3, sticky=E, pady=5
-    )
-    ttk.Label(frm, text=end).grid(column=1, row=3, sticky=W, pady=5)
-    ttk.Label(frm, text="Durée:", font=("Arial", 12)).grid(
+    ttk.Label(frm, text=start, font=label_font).grid(column=1, row=2, sticky=W, pady=5)
+
+    ttk.Label(frm, text="Fin:", font=bold_font).grid(column=0, row=3, sticky=E, pady=5)
+    ttk.Label(frm, text=end, font=label_font).grid(column=1, row=3, sticky=W, pady=5)
+
+    ttk.Label(frm, text="Durée:", font=bold_font).grid(
         column=0, row=4, sticky=E, pady=5
     )
-    ttk.Label(frm, text=duration).grid(column=1, row=4, sticky=W, pady=5)
-    ttk.Label(frm, text="Salle:", font=("Arial", 12, "bold")).grid(
+    ttk.Label(frm, text=duration, font=label_font).grid(
+        column=1, row=4, sticky=W, pady=5
+    )
+
+    # Room information
+    ttk.Label(frm, text="Salle:", font=bold_font).grid(
         column=0, row=5, sticky=E, pady=5
     )
-    ttk.Label(frm, text=room, font=("Arial", 12)).grid(
-        column=1, row=5, sticky=W, pady=5
+    ttk.Label(frm, text=room, font=label_font).grid(column=1, row=5, sticky=W, pady=5)
+
+    ttk.Label(frm, text="Type:", font=bold_font).grid(column=0, row=6, sticky=E, pady=5)
+    ttk.Label(frm, text=room_type, font=label_font).grid(
+        column=1, row=6, sticky=W, pady=5
     )
-    ttk.Label(frm, text="Type:", font=("Arial", 12)).grid(
-        column=0, row=6, sticky=E, pady=5
-    )
-    ttk.Label(frm, text=room_type).grid(column=1, row=6, sticky=W, pady=5)
-    ttk.Label(frm, text="Capacité:", font=("Arial", 12)).grid(
+
+    ttk.Label(frm, text="Capacité:", font=bold_font).grid(
         column=0, row=7, sticky=E, pady=5
     )
-    ttk.Label(frm, text=capacity).grid(column=1, row=7, sticky=W, pady=5)
+    ttk.Label(frm, text=capacity, font=label_font).grid(
+        column=1, row=7, sticky=W, pady=5
+    )
+
+    # Return button
     ttk.Button(frm, text="Menu principal", command=show_home).grid(
         column=0, row=8, columnspan=2, pady=20
     )
+
+    # Grid configuration
     frm.columnconfigure(0, weight=1)
     frm.columnconfigure(1, weight=1)
 
@@ -732,9 +818,39 @@ def display_client_reservations():
 
     ttk.Label(frm, text="Client:").grid(column=0, row=1, pady=10, sticky="e")
     client_var = StringVar()
-    client_combobox = ttk.Combobox(frm, textvariable=client_var, values=clients)
+
+    # Création d'un style personnalisé pour le champ de saisie
+    style = ttk.Style()
+    style.map(
+        "White.TCombobox",
+        fieldbackground=[("readonly", "white"), ("!readonly", "white")],
+    )
+
+    client_combobox = ttk.Combobox(
+        frm, textvariable=client_var, values=clients, style="White.TCombobox"
+    )
     client_combobox.grid(column=1, row=1, pady=10, sticky="ew")
+
+    # Définir le texte d'indication et l'état initial
     client_combobox.set("Sélectionner un client")
+    client_combobox.state(["readonly"])  # Empêche la saisie directe
+
+    # Fonction pour gérer le focus
+    def on_combobox_focus(event):
+        if client_var.get() == "Sélectionner un client":
+            client_combobox.set("")
+            client_combobox.state(["!readonly"])  # Permet la sélection
+
+    # Fonction pour gérer la perte de focus
+    def on_combobox_focusout(event):
+        if not client_var.get():
+            client_combobox.set("Sélectionner un client")
+            client_combobox.state(["readonly"])
+
+    # Lier les événements
+    client_combobox.bind("<FocusIn>", on_combobox_focus)
+    client_combobox.bind("<FocusOut>", on_combobox_focusout)
+
     button_frame = ttk.Frame(frm)
     button_frame.grid(column=0, row=2, columnspan=2, pady=20)
     ttk.Button(button_frame, text="Annuler", command=open_display_page).pack(
@@ -770,7 +886,7 @@ def show_reservations_table(client_name):
         columns=columns,
         show="headings",
         yscrollcommand=scrollbar.set,
-        height=10,
+        height=5,
         style="Custom.Treeview",  # Applique le style personnalisé
     )
 
@@ -865,7 +981,7 @@ def validate_slot_selection(start_date, start_time, end_date, end_time):
             day, month, year = map(int, date_str.split("/"))
             if len(date_str) != 10 or date_str[2] != "/" or date_str[5] != "/":
                 return False
-            return 1 <= day <= 31 and 1 <= month <= 12 and year == 2025
+            return 1 <= day <= 31 and 1 <= month <= 12 and year >= 2025
         except:
             return False
 
@@ -1004,8 +1120,8 @@ def show_available_rooms_table(start_datetime, end_datetime):
 # Initialisation de l'application
 root = Tk()
 root.title("MeetingPro")
-root.geometry("1000x900")
-root.minsize(1000, 900)
+root.geometry("100x950")
+root.minsize(1000, 950)
 root.configure(bg="lightgray")  # Fond en lightgray
 style = ttk.Style()
 style.configure("Custom.Treeview", rowheight=35)  # 35 pixels de hauteur par défaut
@@ -1014,26 +1130,52 @@ style.configure("Custom.Treeview", rowheight=35)  # 35 pixels de hauteur par dé
 style = ttk.Style()
 style.theme_use("clam")  # Ou 'default', 'alt', 'clam', 'classic'
 style.configure("TFrame", background="lightgray")
+style.configure("TButton", font=("Arial", 12))  # Style de base
+# Ajoutez ceci avec les autres configurations de style
+style.configure("Custom.TFrame", background="#f0f0f0")
 
 # Barre de navigation
-nav_frame = Frame(root, bg="white")
-nav_frame.pack(side=TOP, fill=X)
+nav_frame = ttk.Frame(
+    root, style="Custom.TFrame"
+)  # Utilisation d'un ttk.Frame avec style
+nav_frame.pack(side=TOP, fill=X, pady=5)
+
+# Style pour la barre de navigation
+style.configure("Nav.TFrame", background="#f0f0f0")
+style.configure(
+    "Nav.TButton",
+    font=("Arial", 11),
+    padding=5,
+    relief=FLAT,
+    background="#f0f0f0",
+    foreground="black",
+)
+style.map(
+    "Nav.TButton",
+    background=[("active", "#e0e0e0"), ("pressed", "#d0d0d0")],
+    foreground=[("active", "black")],
+)
+
 nav_buttons = []
 nav_buttons.append(
-    Button(nav_frame, text="Accueil", command=show_home, width=15, relief=FLAT)
+    ttk.Button(nav_frame, text="Accueil", command=show_home, style="Nav.TButton")
 )
 nav_buttons.append(
-    Button(nav_frame, text="Ajouter", command=open_add_page, width=15, relief=FLAT)
+    ttk.Button(nav_frame, text="Ajouter", command=open_add_page, style="Nav.TButton")
 )
 nav_buttons.append(
-    Button(nav_frame, text="Réserver", command=open_reserve_page, width=15, relief=FLAT)
+    ttk.Button(
+        nav_frame, text="Réserver", command=open_reserve_page, style="Nav.TButton"
+    )
 )
 nav_buttons.append(
-    Button(nav_frame, text="Afficher", command=open_display_page, width=15, relief=FLAT)
+    ttk.Button(
+        nav_frame, text="Afficher", command=open_display_page, style="Nav.TButton"
+    )
 )
 
 for button in nav_buttons:
-    button.pack(side=LEFT, padx=5, pady=5)
+    button.pack(side=LEFT, padx=10, ipadx=50, ipady=5)
 
 # Cadre principal
 frm = ttk.Frame(root, padding=200)
