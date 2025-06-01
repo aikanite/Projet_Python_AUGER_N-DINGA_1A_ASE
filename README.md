@@ -11,7 +11,7 @@ Une entreprise nous a contacté et donné un cahier des charges pour une applica
 On doit pouvoir ajouter clients et salles, réserver des salles, voir les réservation etc...
 
 
-Partie Interface; N'DINGA Albin :
+### Partie Interface; N'DINGA Albin :
 
 L'interface graphique de l'application a été développée avec `tkinter`, offrant une expérience utilisateur intuitive et responsive. Elle est structurée autour de quatre onglets principaux accessibles depuis une barre de navigation :
 
@@ -32,10 +32,10 @@ L'interface graphique de l'application a été développée avec `tkinter`, offr
 - **Tableaux** : Tri et affichage clair des données (ex : salles disponibles par type).
 
 
-Partie données; AUGER Kévin :
+### Partie données; AUGER Kévin :
 
 Pour cette partie j'ai dû apprendre à me servir de json et structurer les données pour convenir à nos besoins. 
-Structure d'un client : 
+### Structure d'un client : 
 {
             "AUGER Kevin": {
                 "Nom": "AUGER",
@@ -47,7 +47,7 @@ Structure d'un client :
 }
 
 
-Structure d'une salle :
+### Structure d'une salle :
 {
             "Salle 0": {
                 "Type": "Informatique",
@@ -58,7 +58,7 @@ Structure d'une salle :
 
 Il a ensuite fallu penser aux réservations qui ont été plus dures a penser puisque les tableaux de "AFFICHER" ne montrent pas le même type de données.
 
-Reservation client : 
+### Reservation client : 
 {
     "Salle": "Salle 20",
     "Type": "Standard",
@@ -68,7 +68,7 @@ Reservation client :
     "Duree": 1.0
 }
 
-Reservation Salle :
+### Reservation Salle :
 {
     "DateDebut": "12/02/2025 \n 07:30",
     "DateFin": "12/02/2025 \n 08:30",
