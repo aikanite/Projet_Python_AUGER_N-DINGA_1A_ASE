@@ -1,5 +1,7 @@
 # Projet_Python_AUGER_N-DINGA_1A_ASE
 
+READMME a regarder dans code sinon la mise en page est pas jolie.
+
 Bonjour
 
 Projet python de N'DINGA Albin et AUGER Kévin (2025)
