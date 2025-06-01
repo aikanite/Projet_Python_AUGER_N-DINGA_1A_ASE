@@ -119,8 +119,10 @@ Ce projet nous a permis d'appliquer nos compétences en Python et en travail col
 
 ### Contributeurs :
 
-Ndinga Albin (Interface Graphique)
-Kevin (Gestion des Données)
+NDINGA Albin (Interface Graphique)
+
+AUGER Kévin (Gestion des Données)
+
 Date de rendu : 1 juin 2025
 
 
