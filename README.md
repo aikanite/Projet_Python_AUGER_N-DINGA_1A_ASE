@@ -1,15 +1,29 @@
 # Projet_Python_AUGER_N-DINGA_1A_ASE
 
-READMME a regarder dans code sinon la mise en page est pas jolie.
-
-Bonjour
-
 Projet python de N'DINGA Albin et AUGER Kévin (2025)
 
-Résumé du projet : 
-Une entreprise nous a contacté et donné un cahier des charges pour une application de réservation de salles. Il y a 3 types de salles : Informatique, Conférence et Standard.
-On doit pouvoir ajouter clients et salles, réserver des salles, voir les réservation etc...
+### Résumé de la démarche et répartition des tâches
 
+Notre projet consistait à développer une application Python avec une interface graphique pour la gestion des réservations de salles de coworking pour l'entreprise MeetingPro. Nous avons adopté une approche modulaire en séparant le projet en deux parties principales :
+
+Partie Interface Graphique : Pris en charge par Ndinga Albin, qui a conçu et implémenté toutes les interfaces utilisateur (menus, formulaires, affichages) en utilisant Tkinter.
+Partie Données : Pris en charge par Kevin, qui a géré la modélisation des données (clients, salles, réservations), la persistance des données dans un fichier JSON, et la logique métier (validation des créneaux, gestion des réservations).
+Cette répartition nous a permis de travailler en parallèle tout en assurant une bonne cohérence entre les fonctionnalités et leur affichage.
+
+### Fonctionnement général de l'application
+
+L'application permet aux utilisateurs de :
+
+1. Ajouter des clients et des salles :
+Les clients sont enregistrés avec leur nom, prénom, email et un identifiant unique.
+Les salles sont classées par type (Standard, Conférence, Informatique) avec des capacités spécifiques.
+2. Réserver des salles :
+Un client sélectionne un créneau horaire (date et heure de début/fin).
+Le système vérifie la disponibilité des salles et propose celles compatibles.
+3. Afficher des informations :
+Consultation des listes de clients, de salles, et des réservations par client.
+Visualisation des salles disponibles pour un créneau donné.
+L'interface est intuitive, avec un menu principal et des sous-menus pour chaque fonctionnalité. Les données sont sauvegardées dans un fichier JSON pour assurer la persistance.
 
 ### Partie Interface; N'DINGA Albin :
 
@@ -76,6 +90,37 @@ Il a ensuite fallu penser aux réservations qui ont été plus dures a penser pu
 }
 
 Apres avoir implémenté les fonctions mettant en oeuvre ce systeme de stockage il suffisait de les utiliser dans les fonctions que mon collegue a utilisé pour les boutons correspondants.
-Le principal défi était les nouveaux modules à apprendre.
+
+
+### Problèmes rencontrés et solutions
+
+### Problème majeur : Compatibilité entre macOS et Windows
+
+Description : Albin travaillant sur macOS et Kevin sur Windows, nous avons rencontré des différences dans le rendu des interfaces graphiques (Tkinter). Par exemple, les polices et les tailles des widgets n'étaient pas toujours cohérentes entre les deux systèmes.
+Solution : Nous avons standardisé les styles en utilisant des configurations explicites (tailles fixes, polices communes) et testé l'application sur les deux systèmes pour ajuster les détails.
+Autres problèmes :
+
+Gestion des dates/heures : La validation des créneaux horaires (durée minimale de 30 min) a été complexe. Nous avons utilisé le module datetime pour comparer les heures et calculer les durées.
+Persistance des données : L'écriture/lecture du fichier JSON posait parfois des problèmes de format. Nous avons ajouté des vérifications d'intégrité et des messages d'erreur clairs.
+Ressources utilisées
+
+Pour mener à bien le projet, nous avons utilisé :
+
+1. Fichier fourni : Le PDF du projet a servi de référence pour les consignes et les attentes fonctionnelles.
+2. Outils en ligne :
+Google : Pour rechercher des solutions techniques (ex : utilisation de Tkinter, gestion des dates).
+GitHub Copilot : Pour générer des snippets de code et accélérer le développement.
+Documentation Python : La fonction help() et les docs officielles (Tkinter, JSON) nous ont aidés à comprendre les modules.
+Vidéos sur le MVC : Les liens YouTube fournis dans le sujet nous ont éclairés sur l'architecture Model-View-Controller.
+
+### Conclusion
+
+Ce projet nous a permis d'appliquer nos compétences en Python et en travail collaboratif. Malgré les défis techniques, nous avons livré une application fonctionnelle et intuitive. La répartition des tâches était équilibrée, avec une bonne communication pour intégrer nos parties respectives.
+
+### Contributeurs :
+
+Ndinga Albin (Interface Graphique)
+Kevin (Gestion des Données)
+Date de rendu : 1 juin 2025
 
 
