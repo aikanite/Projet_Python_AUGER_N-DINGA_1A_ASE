@@ -1,6 +1,7 @@
 # Projet_Python_AUGER_N-DINGA_1A_ASE
 
-Projet python de N'DINGA Albin et AUGER Kévin (2025)
+### Comment lancer le projet ?
+Executer "python projet.py" dans le terminal.
 
 ### Résumé de la démarche et répartition des tâches
 
