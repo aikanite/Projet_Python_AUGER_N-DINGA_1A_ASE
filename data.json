@@ -30,6 +30,14 @@
                         "DateDebut": "12/09/2025 \n 18:00",
                         "DateFin": "12/09/2025 \n 19:00",
                         "Duree": 1.0
+                    },
+                    {
+                        "Salle": "Salle 32",
+                        "Type": "Conference",
+                        "Capacite": "10",
+                        "DateDebut": "30/09/2025 \n 08:00",
+                        "DateFin": "30/09/2025 \n 16:00",
+                        "Duree": 8.0
                     }
                 ]
             }
@@ -139,6 +147,20 @@
                         "DateDebut": "25/04/2025 \n 08:00",
                         "DateFin": "25/04/2025 \n 09:00",
                         "Duree": 1.0
+                    }
+                ]
+            }
+        },
+        {
+            "Salle 32": {
+                "Room Id": "32",
+                "Type": "Conference",
+                "Capacite": "10",
+                "Date d'indisponibilite": [
+                    {
+                        "DateDebut": "30/09/2025 \n 08:00",
+                        "DateFin": "30/09/2025 \n 16:00",
+                        "Duree": 8.0
                     }
                 ]
             }
